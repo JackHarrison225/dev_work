@@ -36,8 +36,9 @@ export default function signupScreen() {
 
   const checkDetails = async(userDetails: {username: any, password: any}) => {
     //send to back end
-    await apiClient.login()
+    const respone:any = await apiClient.login(userDetails);
     //check response 
+    console.log(respone.body)
     // respond acordingly
 
   }
@@ -52,7 +53,6 @@ export default function signupScreen() {
           style={styles.InputBox} 
           placeholderTextColor='gray' 
           placeholder='Username/Email'
-          onChange={handleChange}
           value={details.username}
           onChangeText={(username) => changeDetails({...details, username})}
         />

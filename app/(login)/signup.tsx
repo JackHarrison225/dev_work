@@ -17,10 +17,10 @@ export default function signupScreen() {
   const apiClient = new ApiClient()
 
   const defualtDetails = {
-    username: "", 
-    email:"",
-    password1: "", 
-    password2: ""
+    Username: "", 
+    Email:"",
+    Password1: "", 
+    Password2: ""
   }
   const [details, changeDetails] = useState(defualtDetails);
 
@@ -28,15 +28,27 @@ export default function signupScreen() {
     console.log(details)
   }, [details]);
 
-  const checkDetails = async (userDetails: {username: any, email: any, password1: any, password2: any; }) => {
-    const passwords = passwordCheck(userDetails.password1, userDetails.password2)
+  const checkDetails = async (userDetails: {Username: any, Email: any, Password1: any, Password2: any; }) => {
+    const passwords = passwordCheck(userDetails.Password1, userDetails.Password2)
     if (passwords)
     {
-      //send details to back ends
-      await apiClient.signup()
-      //check response 
-      //respond acordingly
-      
+      if(CheckEmail(userDetails.Email))
+      {
+        const userObj = {
+          Username: userDetails.Username,
+          Password: userDetails.Password1,
+          Email: userDetails.Email
+        }
+        //send details to back ends
+        const respone:any = await apiClient.signup(userObj)
+        //check response 
+        const signedup = respone.state
+        //respond acordingly
+        if (signedup)
+        {
+          // go to login page
+        }
+      }
       
     }
      
@@ -48,11 +60,11 @@ export default function signupScreen() {
   }
 
 
-  const passwordCheck = (password1: any, password2: any) => {
+  const passwordCheck = (Password1: any, Password2: any) => {
     //compare
-    if (password1 == password2)
+    if (Password1 == Password2)
       {
-        if(/^(?=.*[a-zA-Z0-9])(?=.*[\W_]).{8,20}$/g.test(password1))
+        if(/^(?=.*[a-zA-Z0-9])(?=.*[\W_]).{8,20}$/g.test(Password1))
           {
             return true
           } else {
@@ -75,16 +87,16 @@ export default function signupScreen() {
           style={styles.InputBox} 
           placeholderTextColor='gray' 
           placeholder='Username'
-          value={details.username}
-          onChangeText={(username) => changeDetails({...details, username})}
+          value={details.Username}
+          onChangeText={(Username) => changeDetails({...details, Username})}
         />
 
         <TextInput 
           style={styles.InputBox} 
           placeholderTextColor='gray' 
           placeholder='Email'
-          value={details.email}
-          onChangeText={(email) => changeDetails({...details, email})}
+          value={details.Email}
+          onChangeText={(Email) => changeDetails({...details, Email})}
         />
 
         <TextInput 
@@ -92,8 +104,8 @@ export default function signupScreen() {
           placeholderTextColor='gray' 
           placeholder='Password' 
           secureTextEntry={true}
-          value={details.password1}
-          onChangeText={(password1) => changeDetails({...details, password1})}
+          value={details.Password1}
+          onChangeText={(Password1) => changeDetails({...details, Password1})}
         />
 
         <TextInput 
@@ -101,8 +113,8 @@ export default function signupScreen() {
           placeholderTextColor='gray' 
           placeholder='Confirm Password' 
           secureTextEntry={true}
-          value={details.password2}
-          onChangeText={(password2) => changeDetails({...details, password2})}
+          value={details.Password2}
+          onChangeText={(Password2) => changeDetails({...details, Password2})}
         />
       </View>
 
