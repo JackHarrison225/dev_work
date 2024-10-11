@@ -19,7 +19,7 @@ export default class ApiClient {
                 `${apiAddress}/signup`,//url
                 {"UserName": userdetails.Username, "Email": userdetails.Email, "Password": userdetails.Password }//body
             )
-            return alert(responseObject)
+            return responseObject
 
         } catch (err) {
             alert(err)
